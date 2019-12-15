@@ -1,9 +1,17 @@
+#pragma once
 #include <vector>
 #include <list>
 #include "primitive.h"
 
 namespace gc
 {
+    //gc 가능 인터페이스
+    class GCable
+    {
+    public:
+        virtual void clear() = 0;
+    };
+
     //singleton marking table
     class __GCTable
     {
@@ -62,7 +70,7 @@ namespace gc
 
         void sweep()
         {
-            for (auto it = heap.begin(); it != heap.end(); i++)
+            for (auto it = heap.begin(); it != heap.end(); it++)
             {
                 if (it->marked)
                     it->marked = false;
