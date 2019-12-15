@@ -13,15 +13,28 @@ namespace gc
     {
     private:
         T* value;
+        Box();
     public:
+        Box();
         virtual ~Box();
         virtual void clear();
     };
 
     template <class T>
+    Box<T>::Box()
+    {
+        gc::table.add();
+    }
+
+    template <class T>
     Box<T>::~Box()
     {
-        
+        gc::table.mark_and_sweep();
+    }
+
+    template <class T>
+    void Box<T>::clear()
+    {
+        delete this->value;
     }
 }
-
