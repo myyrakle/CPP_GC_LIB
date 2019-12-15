@@ -1,11 +1,10 @@
 #pragma once
 
+#include "gcable_object.h"
 #include "gc.h"
 
 namespace gc
 {
-    class GCableObject;
-
     class Char; // single character type
     class String; // string type
 
@@ -23,12 +22,6 @@ namespace gc
     class Float64; // double floating point type
 
     class Bool; // boolean type
-
-    class GCableObject
-    {
-    public:
-        virtual void clear() = 0;
-    };
 
     class Char: public GCableObject // single character type
     {

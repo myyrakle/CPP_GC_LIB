@@ -8,7 +8,7 @@ template <class T>
 class Pointer
 {
 private:
-
+    
 public:
 
 };

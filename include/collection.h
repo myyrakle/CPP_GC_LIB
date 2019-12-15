@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "primitive.h"
+#include "gcable_object.h"
 
 namespace gc
 {
