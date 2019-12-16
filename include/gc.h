@@ -18,25 +18,14 @@ namespace gc
             return table;
         }
 
-        //할당된 객체타입
-        struct object_type
-        {
-            void *self;
-            bool marked = false;
-            object_type(void *p) : self(p)
-            {
-            }
-        };
         //트리
         struct node_type
         {
-            object_type &self;
+            GCableObject &self;
             std::vector<node_type &> childs;
-
         public:
-            node_type(object_type &v) : self(v)
-            {
-            }
+            node_type(GCableObject &v) : self(v)
+            {}
         };
 
         std::list<node_type> roots;
@@ -47,16 +36,16 @@ namespace gc
         {
             for (auto &root : roots)
             {
-                root.self.marked = true;
+                root.self._marked = true;
                 mark_recursion(root);
             }
         }
         void mark_recursion(node_type &root)
         {
-            for (auto &root : roots)
+            for (auto &e : root.childs)
             {
-                root.self.marked = true;
-                for (auto &child : root.childs)
+                e.self._marked = true;
+                for (auto &child : e.childs)
                     mark_recursion(child);
             }
         }
@@ -77,18 +66,19 @@ namespace gc
             }
         }
 
-    public:
+    public: // public methods
         void mark_and_sweep()
         {
             mark();
             sweep();
         }
 
-        void add(void *ptr) //마크 추가
+        void add(GCableObject& ptr) //마크 추가
         {
-            heap.emplace_back(ptr);
-            roots.emplace_back(heap.back());
+            heap.push_back(ptr);
+            roots.push_back(heap.back());
         }
     };
-    static __GCTable &table = __GCTable::get_object();
+
+    __GCTable &table = __GCTable::get_object();
 }
